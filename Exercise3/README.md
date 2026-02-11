@@ -12,6 +12,7 @@ Output
 Scenario 1
 
 Output 1
+
 ![Logo](https://github.com/Dineeesh2906/Ml-project/blob/main/Exercise3/Output-scenario1/Screenshot%202026-02-10%20212835.png)
 
 
