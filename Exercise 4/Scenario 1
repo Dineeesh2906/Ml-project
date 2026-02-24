@@ -1,0 +1,130 @@
+print("Dinesh Kumar P - 24BAD021")
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import zipfile
+import re
+
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import confusion_matrix, classification_report
+zip_path = r"C:\Users\sandh\Downloads\archive (4).zip"
+with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    zip_ref.extractall("sms_data")
+df = pd.read_csv("sms_data/spam.csv", encoding='latin-1')
+df = df[['v1', 'v2']]
+df.columns = ['label', 'message']
+print("First 5 rows:")
+print(df.head())
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r'[^a-zA-Z]', ' ', text)
+    return text
+df['message'] = df['message'].apply(clean_text)
+vectorizer = CountVectorizer(stop_words='english')
+X = vectorizer.fit_transform(df['message'])
+le = LabelEncoder()
+y = le.fit_transform(df['label'])
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+model = MultinomialNB(alpha=1.0)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("\nAccuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("F1 Score:", f1_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+cm = confusion_matrix(y_test, y_pred)
+plt.figure()
+sns.heatmap(cm, annot=True, fmt='d')
+plt.title("Confusion Matrix - Multinomial NB")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
+misclassified = df.iloc[X_test.nonzero()[0]]
+print("\nSome Misclassified Messages:")
+print(misclassified.head())
+feature_names = vectorizer.get_feature_names_out()
+spam_prob = model.feature_log_prob_[1]
+top10 = np.argsort(spam_prob)[-10:]
+print("\nTop 10 Words Influencing Spam:")
+for i in top10:
+    print(feature_names[i])
+spam_msgs = df[df['label']=='spam']['message']
+ham_msgs = df[df['label']=='ham']['message']
+spam_vec = CountVectorizer(stop_words='english')
+ham_vec = CountVectorizer(stop_words='english')
+spam_counts = spam_vec.fit_transform(spam_msgs)
+ham_counts = ham_vec.fit_transform(ham_msgs)
+print("\nTotal Spam Words:", spam_counts.sum())
+print("Total Ham Words:", ham_counts.sum())
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import zipfile
+import re
+
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import confusion_matrix, classification_report
+zip_path = r"C:\Users\sandh\Downloads\archive (4).zip"
+with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    zip_ref.extractall("sms_data")
+df = pd.read_csv("sms_data/spam.csv", encoding='latin-1')
+df = df[['v1', 'v2']]
+df.columns = ['label', 'message']
+print("First 5 rows:")
+print(df.head())
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r'[^a-zA-Z]', ' ', text)
+    return text
+df['message'] = df['message'].apply(clean_text)
+vectorizer = CountVectorizer(stop_words='english')
+X = vectorizer.fit_transform(df['message'])
+le = LabelEncoder()
+y = le.fit_transform(df['label'])
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+model = MultinomialNB(alpha=1.0)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("\nAccuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("F1 Score:", f1_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+cm = confusion_matrix(y_test, y_pred)
+plt.figure()
+sns.heatmap(cm, annot=True, fmt='d')
+plt.title("Confusion Matrix - Multinomial NB")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
+misclassified = df.iloc[X_test.nonzero()[0]]
+print("\nSome Misclassified Messages:")
+print(misclassified.head())
+feature_names = vectorizer.get_feature_names_out()
+spam_prob = model.feature_log_prob_[1]
+top10 = np.argsort(spam_prob)[-10:]
+print("\nTop 10 Words Influencing Spam:")
+for i in top10:
+    print(feature_names[i])
+spam_msgs = df[df['label']=='spam']['message']
+ham_msgs = df[df['label']=='ham']['message']
+spam_vec = CountVectorizer(stop_words='english')
+ham_vec = CountVectorizer(stop_words='english')
+spam_counts = spam_vec.fit_transform(spam_msgs)
+ham_counts = ham_vec.fit_transform(ham_msgs)
+print("\nTotal Spam Words:", spam_counts.sum())
+print("Total Ham Words:", ham_counts.sum())
