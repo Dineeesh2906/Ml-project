@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import confusion_matrix, classification_report
-zip_path = r"C:\Users\sandh\Downloads\archive (4).zip"
+zip_path = r"C:\Users\dinesh\Downloads\archive (4).zip"
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
     zip_ref.extractall("sms_data")
 df = pd.read_csv("sms_data/spam.csv", encoding='latin-1')
