@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-zip_path = r"C:\Users\sandh\Downloads\archive (6).zip"
+zip_path = r"C:\Users\dinesh\Downloads\archive (6).zip"
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
     print("Files inside ZIP:", zip_ref.namelist())
     csv_name = zip_ref.namelist()[0]
